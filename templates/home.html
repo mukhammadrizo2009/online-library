@@ -1,0 +1,1011 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitoblar Dunyosi!</title>
+    
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+
+    <link rel="stylesheet" href="https://unpkg.com/lucide@latest/dist/lucide.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ========================================
+           CSS Reset & Variables
+           ======================================== */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --color-sage: #2563eb;          /* Primary Blue */
+            --color-sage-light: #60a5fa;
+            --color-sage-dark: #1e40af;
+
+            --color-cream: #f8fafc;         /* Page background */
+            --color-cream-dark: #e5e7eb;    
+
+            --color-charcoal: #0f172a;      /* Main text */
+            --color-charcoal-light: #334155;
+
+            --color-white: #ffffff;
+            --color-text: #0f172a;
+            --color-text-light: #475569;
+
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+
+            
+            /* Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 1.5rem;
+            --space-lg: 2rem;
+            --space-xl: 3rem;
+            --space-2xl: 4rem;
+            --space-3xl: 6rem;
+            
+            /* Other */
+            --radius: 1rem;
+            --radius-lg: 1.5rem;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.dark {
+        --color-cream: #020617;
+        --color-cream-dark: #020617;
+
+        --color-white: #020617;
+
+        --color-charcoal: #f8fafc;
+        --color-charcoal-light: #cbd5e1;
+
+        --color-text: #f8fafc;
+        --color-text-light: #94a3b8;
+
+        --color-sage: #3b82f6;
+        --color-sage-light: #60a5fa;
+        --color-sage-dark: #2563eb;
+    }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            background: var(--color-cream);
+            color: var(--color-text);
+            line-height: 1.7;
+        }
+        
+        /* ========================================
+           Typography
+           ======================================== */
+        
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            color: var(--color-charcoal);
+            letter-spacing: -0.02em;
+        }
+        
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: var(--space-md);
+        }
+        
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: var(--space-lg);
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-sm);
+        }
+        
+        p {
+            color: var(--color-text-light);
+            font-size: 1.1rem;
+        }
+                
+        /* ========================================
+           Layout Components
+           ======================================== */
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+        }
+        
+        .container-wide {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+        }
+        
+        section {
+            padding: var(--space-3xl) 0;
+        }
+        
+        /* ========================================
+           Navigation
+           ======================================== */
+        
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(245, 243, 239, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(135, 168, 120, 0.15);
+        }
+        
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-md) var(--space-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-charcoal);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+        
+        .logo-icon {
+            font-size: 1.75rem;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: var(--space-md);
+        }
+
+        
+        
+        /* ========================================
+           Buttons
+           ======================================== */
+        
+        .btn {
+            display: inline-block;
+            padding: 0.875rem 2rem;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--radius);
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: var(--color-sage);
+            color: var(--color-white);
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-primary:hover {
+            background: var(--color-sage-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-charcoal);
+            border: 2px solid var(--color-charcoal);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--color-charcoal);
+            color: var(--color-white);
+        }
+        
+        .btn-large {
+            padding: 1.125rem 2.5rem;
+            font-size: 1.125rem;
+        }
+        
+        /* ========================================
+           Hero Section
+           ======================================== */
+        
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-cream-dark) 100%);
+            padding-top: 80px;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60%;
+            height: 100%;
+            background: radial-gradient(ellipse at top right, rgba(135, 168, 120, 0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-3xl);
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-text {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1.25rem;
+            background: rgba(135, 168, 120, 0.15);
+            border: 1px solid rgba(135, 168, 120, 0.3);
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-sage-dark);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .hero h1 {
+            margin-bottom: var(--space-md);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.375rem;
+            color: var(--color-text-light);
+            margin-bottom: var(--space-xl);
+            line-height: 1.6;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: var(--space-md);
+            flex-wrap: wrap;
+        }
+        
+        .hero-visual {
+            position: relative;
+            animation: fadeInRight 1s ease-out;
+        }
+        
+        .book-stack {
+            position: relative;
+            height: 500px;
+        }
+        
+        .book {
+            position: absolute;
+            width: 200px;
+            height: 280px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            transition: 0.4s ease;
+            background: #000;
+        }
+
+        .book img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .book span {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 0.6rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            text-align: center;
+        }
+
+        .book:hover {
+            transform: translateY(-10px) rotate(2deg);
+        }
+        
+        .book-1 {
+            background: linear-gradient(135deg, var(--color-sage) 0%, var(--color-sage-dark) 100%);
+            top: 20px;
+            left: 50px;
+            transform: rotate(-5deg);
+            z-index: 3;
+        }
+        
+        .book-2 {
+            background: linear-gradient(135deg, var(--color-terracotta) 0%, #c06858 100%);
+            top: 80px;
+            left: 150px;
+            transform: rotate(5deg);
+            z-index: 2;
+        }
+        
+        .book-3 {
+            background: linear-gradient(135deg, var(--color-charcoal) 0%, var(--color-charcoal-light) 100%);
+            top: 180px;
+            left: 80px;
+            transform: rotate(-3deg);
+            z-index: 1;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* ========================================
+           Value Proposition Section
+           ======================================== */
+        
+        .value-prop {
+            background: var(--color-white);
+            text-align: center;
+        }
+        
+        .value-prop-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .value-prop h2 {
+            margin-bottom: var(--space-md);
+        }
+        
+        .value-prop-text {
+            font-size: 1.25rem;
+            color: var(--color-text-light);
+            line-height: 1.8;
+        }
+        
+        .value-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-lg);
+            margin-top: var(--space-xl);
+        }
+        
+        .value-card {
+            background: var(--color-cream);
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .value-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-md);
+            display: block;
+        }
+        
+        .value-card h3 {
+            color: var(--color-charcoal);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .value-card p {
+            font-size: 1rem;
+            color: var(--color-text-light);
+            margin-bottom: 0;
+        }
+        
+        /* ========================================
+           Features Section
+           ======================================== */
+        
+        .features {
+            background: var(--color-cream);
+        }
+        
+        .features-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto var(--space-3xl);
+        }
+        
+        .feature-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-3xl);
+            align-items: center;
+            margin-bottom: var(--space-3xl);
+        }
+        
+        .feature-item:nth-child(even) .feature-content {
+            order: 2;
+        }
+        
+        .feature-item:nth-child(even) .feature-visual {
+            order: 1;
+        }
+        
+        .feature-visual {
+            background: var(--color-white);
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            min-height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-visual::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(135, 168, 120, 0.08) 0%, transparent 70%);
+        }
+        
+        .feature-icon-large {
+            font-size: 8rem;
+            opacity: 0.6;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .feature-content h3 {
+            font-size: 2rem;
+            margin-bottom: var(--space-md);
+        }
+        
+        .feature-content p {
+            font-size: 1.125rem;
+            margin-bottom: var(--space-md);
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin-top: var(--space-lg);
+        }
+        
+        .feature-list li {
+            padding: var(--space-sm) 0;
+            padding-left: var(--space-xl);
+            position: relative;
+            color: var(--color-text-light);
+            font-size: 1.0625rem;
+        }
+        
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--color-sage);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+        
+        /* ========================================
+           CTA Section
+           ======================================== */
+        
+        .cta {
+            background: linear-gradient(135deg, var(--color-sage) 0%, var(--color-sage-dark) 100%);
+            color: var(--color-white);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta h2 {
+            color: var(--color-white);
+            margin-bottom: var(--space-md);
+        }
+        
+        .cta p {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.25rem;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-white {
+            background: var(--color-white);
+            color: var(--color-sage-dark);
+        }
+        
+        .btn-white:hover {
+            background: var(--color-cream);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-outline-white {
+            background: transparent;
+            color: var(--color-white);
+            border: 2px solid var(--color-white);
+        }
+        
+        .btn-outline-white:hover {
+            background: var(--color-white);
+            color: var(--color-sage-dark);
+        }
+        
+        /* ========================================
+           Footer
+           ======================================== */
+        
+        footer {
+            background: var(--color-charcoal);
+            color: rgba(255, 255, 255, 0.8);
+            padding: var(--space-2xl) 0 var(--space-lg);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: var(--space-2xl);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .footer-brand h4 {
+            font-family: var(--font-heading);
+            color: var(--color-white);
+            font-size: 1.5rem;
+            margin-bottom: var(--space-md);
+        }
+        
+        .footer-brand p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        .footer-section h5 {
+            color: var(--color-white);
+            font-family: var(--font-body);
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: var(--space-md);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: var(--space-sm);
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.9375rem;
+        }
+        
+        .footer-links a:hover {
+            color: var(--color-sage-light);
+            padding-left: var(--space-xs);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: var(--space-lg);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9375rem;
+        }
+        
+        /* ========================================
+           Responsive Design
+           ======================================== */
+        
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: var(--space-xl);
+            }
+            
+            .hero-visual {
+                display: none;
+            }
+            
+            .value-cards {
+                grid-template-columns: 1fr;
+                gap: var(--space-md);
+            }
+            
+            .feature-item {
+                grid-template-columns: 1fr;
+                gap: var(--space-xl);
+            }
+            
+            .feature-item:nth-child(even) .feature-content {
+                order: 1;
+            }
+            
+            .feature-item:nth-child(even) .feature-visual {
+                order: 2;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: var(--space-xl);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            section {
+                padding: var(--space-2xl) 0;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            .nav-buttons {
+                gap: var(--space-sm);
+            }
+            
+            .btn {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.9375rem;
+            }
+            
+            .btn-large {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+            
+            .hero {
+                min-height: auto;
+                padding: calc(80px + var(--space-2xl)) 0 var(--space-2xl);
+            }
+            
+            .hero-subtitle {
+                font-size: 1.125rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+            }
+            
+            .hero-buttons .btn {
+                width: 100%;
+            }
+            
+            .value-prop-text {
+                font-size: 1.125rem;
+            }
+            
+            .feature-visual {
+                min-height: 250px;
+            }
+            
+            .feature-icon-large {
+                font-size: 5rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .cta-buttons .btn {
+                width: 100%;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: var(--space-xl);
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-content">
+            <a href="#" class="logo">
+                <span class="logo-icon">📚</span>
+                Onlayn kitob javoni
+            </a>
+            <div class="nav-buttons">
+                <a href="/accounts/login" class="btn btn-secondary">Login</a>
+                <a href="/accounts/register" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container-wide">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <span class="hero-badge">O'qish safaringizni boshlang</span>
+                    <h1>Kitoblaringiz. Sayohatingiz. Hammasi bir joyda.</h1>
+                    <p class="hero-subtitle">
+                        Shaxsiy raqamli kitob javoningizni yarating, o'qish jarayonini kuzatib boring, 
+                        va adabiy sarguzashtlaringizni kitob ixlosmandlari jamoasi bilan baham ko'ring.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="/accounts/register" class="btn btn-primary btn-large">Create Free Account</a>
+                        <a href="#features" class="btn btn-secondary btn-large">See How It Works</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                <div class="book-stack">
+
+                    <div class="book book-1">
+                    <img src="{% static 'books/atomic-habits.jpg' %}" alt="Atomic Habits">
+                    <span>Hozirda o‘qiyapman</span>
+                    </div>
+
+                    <div class="book book-2">
+                    <img src="{% static 'books/rich-dad.jpg' %}" alt="Rich Dad Poor Dad">
+                    <span>O‘qishni xohlayman</span>
+                    </div>
+
+                    <div class="book book-3">
+                    <img src="{% static 'books/deep-work.jpg' %}" alt="Deep Work">
+                    <span>Tugallandi</span>
+                    </div>
+
+                </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    
+    <!-- Value Proposition Section -->
+    <section class="value-prop">
+        <div class="container">
+            <div class="value-prop-content">
+                <h2>Nima uchun onlayn kitob javoni?</h2>
+                <p class="value-prop-text">
+                    O'qish shaxsiy, ammo ijtimoiy hamdir. Onlayn kitob javoni sizga tartibli bo'lishga yordam beradi 
+                    kitoblarga bo'lgan muhabbatingizni baham ko'radigan boshqalar bilan bog'lanib, o'qish hayotingiz.
+                </p>
+            </div>
+            
+            <div class="value-cards">
+                <div class="value-card">
+                    <span class="value-icon">🎯</span>
+                    <h3>Stay Organized</h3>
+                    <p>Keep all your books in one beautiful, easy-to-manage digital space.</p>
+                </div>
+                <div class="value-card">
+                    <span class="value-icon">📈</span>
+                    <h3>Track Progress</h3>
+                    <p>Watch your reading goals come to life with visual tracking and insights.</p>
+                </div>
+                <div class="value-card">
+                    <span class="value-icon">💬</span>
+                    <h3>Share & Connect</h3>
+                    <p>Discover what others are reading and inspire each other's next great read.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="features-header">
+                <h2>Everything You Need to Love Reading More</h2>
+                <p>Simple tools that help you build a meaningful reading habit.</p>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-visual">
+                    <span class="feature-icon-large">📖</span>
+                </div>
+                <div class="feature-content">
+                    <h3>Build Your Personal Shelf</h3>
+                    <p>
+                        Create a beautiful digital bookshelf that reflects your reading personality. 
+                        Add books you've read, books you're reading, and books you want to read next.
+                    </p>
+                    <ul class="feature-list">
+                        <li>Organize books into custom collections</li>
+                        <li>Search and add books easily</li>
+                        <li>Beautiful cover displays</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-visual">
+                    <span class="feature-icon-large">✍️</span>
+                </div>
+                <div class="feature-content">
+                    <h3>Capture Your Thoughts</h3>
+                    <p>
+                        Write summaries, reflections, and notes about the books you read. 
+                        Create a personal archive of your reading journey and insights.
+                    </p>
+                    <ul class="feature-list">
+                        <li>Write detailed book summaries</li>
+                        <li>Add personal reflections and quotes</li>
+                        <li>Tag and categorize your notes</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-visual">
+                    <span class="feature-icon-large">🌟</span>
+                </div>
+                <div class="feature-content">
+                    <h3>Share Your Reading Life</h3>
+                    <p>
+                        Connect with other readers who share your interests. See what others 
+                        are reading, get recommendations, and inspire each other.
+                    </p>
+                    <ul class="feature-list">
+                        <li>Share your bookshelf with friends</li>
+                        <li>Discover new books through the community</li>
+                        <li>Follow readers with similar tastes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Call to Action Section -->
+    <section class="cta" id="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Start Your Reading Journey?</h2>
+                <p>
+                    Join thousands of readers who are building their personal libraries and 
+                    sharing their love for books. It's free to get started.
+                </p>
+                <div class="cta-buttons">
+                    <a href="#" class="btn btn-white btn-large">Create Your Account</a>
+                    <a href="#" class="btn btn-outline-white btn-large">Login to Your Shelf</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h4>📚 Online Book Shelf</h4>
+                    <p>
+                        A social reading tracker for book lovers. 
+                        Build your shelf, track your progress, and share your journey.
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h5>Product</h5>
+                    <ul class="footer-links">
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h5>Company</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h5>Legal</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Online Book Shelf. All rights reserved. Made with love for readers.</p>
+            </div>
+        </div>
+    </footer>
+    
+</body>
+</html>
