@@ -1,143 +1,217 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kitoblar Dunyosi!</title>
+    <title>Kitoblar Dunyosi – O'qish Sayohatingiz</title>
     
     <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
-
-    <link rel="stylesheet" href="https://unpkg.com/lucide@latest/dist/lucide.css">
-    <script src="https://unpkg.com/lucide@latest"></script>
-
+    
+    <!-- Fonts - Using distinctive typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- SF Symbols / Ionicons for iOS-style icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
     <style>
         /* ========================================
-           CSS Reset & Variables
+           CSS Reset & Base Styles
            ======================================== */
         
-        * {
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
         
         :root {
-            --color-sage: #2563eb;          /* Primary Blue */
-            --color-sage-light: #60a5fa;
-            --color-sage-dark: #1e40af;
-
-            --color-cream: #f8fafc;         /* Page background */
-            --color-cream-dark: #e5e7eb;    
-
-            --color-charcoal: #0f172a;      /* Main text */
-            --color-charcoal-light: #334155;
-
-            --color-white: #ffffff;
-            --color-text: #0f172a;
-            --color-text-light: #475569;
-
-            --font-heading: 'Playfair Display', serif;
-            --font-body: 'Inter', sans-serif;
-
+            /* Color Palette - Warm, organic theme */
+            --color-primary: #d97706;
+            --color-primary-light: #fbbf24;
+            --color-primary-dark: #b45309;
             
-            /* Spacing */
-            --space-xs: 0.5rem;
-            --space-sm: 1rem;
-            --space-md: 1.5rem;
-            --space-lg: 2rem;
-            --space-xl: 3rem;
-            --space-2xl: 4rem;
-            --space-3xl: 6rem;
+            --color-secondary: #0d9488;
+            --color-secondary-light: #14b8a6;
+            --color-secondary-dark: #0f766e;
+
+            --color-accent: #e11d48;
             
-            /* Other */
-            --radius: 1rem;
-            --radius-lg: 1.5rem;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --color-bg: #fffbf5;
+            --color-bg-secondary: #fef3e2;
+            --color-bg-tertiary: #fff;
+            
+            --color-text: #292524;
+            --color-text-secondary: #57534e;
+            --color-text-light: #78716c;
+
+            /* Dark mode colors */
+            --color-dark-bg: #1c1917;
+            --color-dark-bg-secondary: #292524;
+            --color-dark-text: #fafaf9;
+            --color-dark-text-secondary: #e7e5e4;
+            
+            /* Typography */
+            --font-display: 'Fraunces', serif;
+            --font-body: 'DM Sans', sans-serif;
+            
+            /* Spacing System */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            --space-24: 6rem;
+            
+            /* Design tokens */
+            --radius-sm: 0.5rem;
+            --radius-md: 0.75rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+            --radius-2xl: 2rem;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            
+            --transition-base: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        /* Dark mode */
         body.dark {
-        --color-cream: #020617;
-        --color-cream-dark: #020617;
+            --color-bg: var(--color-dark-bg);
+            --color-bg-secondary: var(--color-dark-bg-secondary);
+            --color-bg-tertiary: #292524;
+            --color-text: var(--color-dark-text);
+            --color-text-secondary: var(--color-dark-text-secondary);
+            --color-text-light: #a8a29e;
+        }
 
-        --color-white: #020617;
+        body.dark footer {
+            background: #0a0908;
+        }
 
-        --color-charcoal: #f8fafc;
-        --color-charcoal-light: #cbd5e1;
+        body.dark .footer-brand h4,
+        body.dark .footer-section h5 {
+            color: white;
+        }
 
-        --color-text: #f8fafc;
-        --color-text-light: #94a3b8;
+        body.dark .footer-brand p,
+        body.dark .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+        }
 
-        --color-sage: #3b82f6;
-        --color-sage-light: #60a5fa;
-        --color-sage-dark: #2563eb;
-    }
+        body.dark .footer-bottom {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        body.dark .stat-item {
+            background: var(--color-bg-tertiary);
+        }
+
+        body.dark .value-card {
+            background: var(--color-bg-secondary);
+        }
+
+        body.dark .feature-visual {
+            background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-tertiary) 100%);
+        }
         
         html {
             scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
         body {
             font-family: var(--font-body);
-            background: var(--color-cream);
+            background: var(--color-bg);
             color: var(--color-text);
-            line-height: 1.7;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* ========================================
+           iOS-Style Icons
+           ======================================== */
+        
+        ion-icon {
+            --ionicon-stroke-width: 48px;
+        }
+
+        .icon-primary {
+            color: var(--color-primary);
+        }
+
+        .icon-secondary {
+            color: var(--color-secondary);
+        }
+
+        .icon-white {
+            color: rgb(230, 9, 9);
         }
         
         /* ========================================
            Typography
            ======================================== */
         
-        h1, h2, h3, h4 {
-            font-family: var(--font-heading);
-            color: var(--color-charcoal);
-            letter-spacing: -0.02em;
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-display);
+            color: var(--color-text);
+            line-height: 1.2;
+            font-weight: 700;
         }
         
         h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            margin-bottom: var(--space-md);
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            letter-spacing: -0.03em;
         }
         
         h2 {
-            font-size: clamp(2rem, 4vw, 3rem);
-            margin-bottom: var(--space-lg);
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            letter-spacing: -0.02em;
         }
         
         h3 {
-            font-size: 1.5rem;
-            margin-bottom: var(--space-sm);
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            letter-spacing: -0.01em;
         }
         
         p {
-            color: var(--color-text-light);
-            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+            font-size: 1.125rem;
+            line-height: 1.7;
         }
-                
+        
         /* ========================================
-           Layout Components
+           Layout Utilities
            ======================================== */
         
         .container {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 0 var(--space-lg);
+            padding: 0 var(--space-6);
         }
         
-        .container-wide {
-            max-width: 1400px;
+        .container-narrow {
+            max-width: 900px;
             margin: 0 auto;
-            padding: 0 var(--space-lg);
+            padding: 0 var(--space-6);
         }
         
         section {
-            padding: var(--space-3xl) 0;
+            padding: var(--space-24) 0;
         }
         
         /* ========================================
@@ -149,86 +223,141 @@
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(245, 243, 239, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 251, 245, 0.8);
+            backdrop-filter: blur(12px) saturate(180%);
             z-index: 1000;
-            border-bottom: 1px solid rgba(135, 168, 120, 0.15);
+            border-bottom: 1px solid rgba(217, 119, 6, 0.1);
+            transition: var(--transition-base);
+        }
+
+        body.dark nav {
+            background: rgba(28, 25, 23, 0.8);
+            border-bottom-color: rgba(217, 119, 6, 0.2);
         }
         
         .nav-content {
             max-width: 1400px;
             margin: 0 auto;
-            padding: var(--space-md) var(--space-lg);
+            padding: var(--space-4) var(--space-6);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
         .logo {
-            font-family: var(--font-heading);
+            font-family: var(--font-display);
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--color-charcoal);
+            color: var(--color-text);
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: var(--space-xs);
+            gap: var(--space-3);
+            transition: var(--transition-base);
+        }
+
+        .logo:hover {
+            transform: translateY(-2px);
         }
         
-        .logo-icon {
-            font-size: 1.75rem;
+        .logo ion-icon {
+            font-size: 2rem;
+            color: var(--color-primary);
         }
         
         .nav-buttons {
             display: flex;
-            gap: var(--space-md);
+            gap: var(--space-4);
+            align-items: center;
         }
 
-        
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: var(--space-2);
+            border-radius: var(--radius-md);
+            transition: var(--transition-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text);
+        }
+
+        .theme-toggle ion-icon {
+            font-size: 1.5rem;
+        }
+
+        .theme-toggle:hover {
+            background: var(--color-bg-secondary);
+        }
         
         /* ========================================
            Buttons
            ======================================== */
         
         .btn {
-            display: inline-block;
-            padding: 0.875rem 2rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-6);
             font-family: var(--font-body);
             font-size: 1rem;
             font-weight: 600;
             text-decoration: none;
-            border-radius: var(--radius);
-            transition: var(--transition);
+            border-radius: var(--radius-lg);
+            transition: var(--transition-base);
             border: none;
             cursor: pointer;
-            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
         
         .btn-primary {
-            background: var(--color-sage);
-            color: var(--color-white);
-            box-shadow: var(--shadow);
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(217, 119, 6, 0.4);
         }
         
         .btn-primary:hover {
-            background: var(--color-sage-dark);
             transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 6px 20px 0 rgba(217, 119, 6, 0.5);
         }
         
         .btn-secondary {
             background: transparent;
-            color: var(--color-charcoal);
-            border: 2px solid var(--color-charcoal);
+            color: var(--color-text);
+            border: 2px solid var(--color-text-light);
         }
         
         .btn-secondary:hover {
-            background: var(--color-charcoal);
-            color: var(--color-white);
+            background: var(--color-text);
+            color: var(--color-bg);
+            border-color: var(--color-text);
         }
         
         .btn-large {
-            padding: 1.125rem 2.5rem;
+            padding: var(--space-4) var(--space-8);
             font-size: 1.125rem;
         }
         
@@ -241,25 +370,35 @@
             display: flex;
             align-items: center;
             position: relative;
-            background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-cream-dark) 100%);
+            background: 
+                radial-gradient(ellipse at top right, rgba(217, 119, 6, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom left, rgba(13, 148, 136, 0.08) 0%, transparent 50%),
+                var(--color-bg);
             padding-top: 80px;
+            overflow: hidden;
         }
-        
+
         .hero::before {
             content: '';
             position: absolute;
-            top: 0;
-            right: 0;
-            width: 60%;
-            height: 100%;
-            background: radial-gradient(ellipse at top right, rgba(135, 168, 120, 0.12) 0%, transparent 70%);
-            pointer-events: none;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(217, 119, 6, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-30px, -30px) scale(1.1); }
         }
         
         .hero-content {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--space-3xl);
+            grid-template-columns: 1.2fr 1fr;
+            gap: var(--space-16);
             align-items: center;
             position: relative;
             z-index: 1;
@@ -270,52 +409,66 @@
         }
         
         .hero-badge {
-            display: inline-block;
-            padding: 0.5rem 1.25rem;
-            background: rgba(135, 168, 120, 0.15);
-            border: 1px solid rgba(135, 168, 120, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-5);
+            background: linear-gradient(135deg, rgba(217, 119, 6, 0.1) 0%, rgba(13, 148, 136, 0.1) 100%);
+            border: 1px solid rgba(217, 119, 6, 0.3);
             border-radius: 2rem;
             font-size: 0.875rem;
             font-weight: 600;
-            color: var(--color-sage-dark);
-            margin-bottom: var(--space-lg);
+            color: var(--color-primary-dark);
+            margin-bottom: var(--space-6);
+        }
+
+        .hero-badge ion-icon {
+            font-size: 1.25rem;
         }
         
         .hero h1 {
-            margin-bottom: var(--space-md);
+            margin-bottom: var(--space-6);
+            background: linear-gradient(135deg, var(--color-text) 0%, var(--color-text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .hero-subtitle {
-            font-size: 1.375rem;
-            color: var(--color-text-light);
-            margin-bottom: var(--space-xl);
-            line-height: 1.6;
+            font-size: 1.25rem;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-8);
+            line-height: 1.7;
         }
         
         .hero-buttons {
             display: flex;
-            gap: var(--space-md);
+            gap: var(--space-4);
             flex-wrap: wrap;
         }
         
         .hero-visual {
             position: relative;
-            animation: fadeInRight 1s ease-out;
+            animation: fadeInRight 1s ease-out 0.2s both;
+            perspective: 1000px;
         }
         
         .book-stack {
             position: relative;
             height: 500px;
+            transform-style: preserve-3d;
         }
         
         .book {
             position: absolute;
-            width: 200px;
-            height: 280px;
-            border-radius: 12px;
+            width: 220px;
+            height: 300px;
+            border-radius: var(--radius-lg);
             overflow: hidden;
-            box-shadow: var(--shadow-lg);
-            transition: 0.4s ease;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.2),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             background: #000;
         }
 
@@ -323,52 +476,83 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: var(--transition-slow);
         }
 
         .book span {
             position: absolute;
             bottom: 0;
-            width: 100%;
-            padding: 0.6rem;
-            font-size: 0.9rem;
+            left: 0;
+            right: 0;
+            padding: var(--space-4);
+            font-size: 0.875rem;
             font-weight: 600;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.7), transparent);
             color: white;
             text-align: center;
+            transform: translateY(100%);
+            transition: var(--transition-base);
         }
 
         .book:hover {
-            transform: translateY(-10px) rotate(2deg);
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+            z-index: 10 !important;
+        }
+
+        .book:hover img {
+            transform: scale(1.1);
+        }
+
+        .book:hover span {
+            transform: translateY(0);
         }
         
         .book-1 {
-            background: linear-gradient(135deg, var(--color-sage) 0%, var(--color-sage-dark) 100%);
             top: 20px;
             left: 50px;
-            transform: rotate(-5deg);
+            transform: rotate(-8deg);
             z-index: 3;
+            animation: bookFloat1 6s ease-in-out infinite;
         }
         
         .book-2 {
-            background: linear-gradient(135deg, var(--color-terracotta) 0%, #c06858 100%);
-            top: 80px;
-            left: 150px;
+            top: 100px;
+            right: 40px;
             transform: rotate(5deg);
             z-index: 2;
+            animation: bookFloat2 7s ease-in-out infinite;
         }
         
         .book-3 {
-            background: linear-gradient(135deg, var(--color-charcoal) 0%, var(--color-charcoal-light) 100%);
-            top: 180px;
+            top: 220px;
             left: 80px;
-            transform: rotate(-3deg);
+            transform: rotate(-4deg);
             z-index: 1;
+            animation: bookFloat3 8s ease-in-out infinite;
+        }
+
+        @keyframes bookFloat1 {
+            0%, 100% { transform: rotate(-8deg) translateY(0); }
+            50% { transform: rotate(-8deg) translateY(-10px); }
+        }
+
+        @keyframes bookFloat2 {
+            0%, 100% { transform: rotate(5deg) translateY(0); }
+            50% { transform: rotate(5deg) translateY(-15px); }
+        }
+
+        @keyframes bookFloat3 {
+            0%, 100% { transform: rotate(-4deg) translateY(0); }
+            50% { transform: rotate(-4deg) translateY(-12px); }
         }
         
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(40px);
             }
             to {
                 opacity: 1;
@@ -379,7 +563,7 @@
         @keyframes fadeInRight {
             from {
                 opacity: 0;
-                transform: translateX(30px);
+                transform: translateX(40px);
             }
             to {
                 opacity: 1;
@@ -388,64 +572,133 @@
         }
         
         /* ========================================
+           Stats Section
+           ======================================== */
+
+        .stats {
+            background: var(--color-bg-secondary);
+            padding: var(--space-16) 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-8);
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: var(--space-6);
+            background: var(--color-bg-tertiary);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-base);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            margin-bottom: var(--space-2);
+        }
+
+        .stat-label {
+            color: var(--color-text-secondary);
+            font-weight: 500;
+        }
+        
+        /* ========================================
            Value Proposition Section
            ======================================== */
         
         .value-prop {
-            background: var(--color-white);
+            background: var(--color-bg-tertiary);
             text-align: center;
         }
         
-        .value-prop-content {
+        .value-prop-header {
             max-width: 800px;
-            margin: 0 auto;
+            margin: 0 auto var(--space-16);
         }
         
         .value-prop h2 {
-            margin-bottom: var(--space-md);
+            margin-bottom: var(--space-6);
         }
         
         .value-prop-text {
             font-size: 1.25rem;
-            color: var(--color-text-light);
+            color: var(--color-text-secondary);
             line-height: 1.8;
         }
         
         .value-cards {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--space-lg);
-            margin-top: var(--space-xl);
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-8);
         }
         
         .value-card {
-            background: var(--color-cream);
-            padding: var(--space-xl);
-            border-radius: var(--radius-lg);
+            background: var(--color-bg);
+            padding: var(--space-10);
+            border-radius: var(--radius-2xl);
             text-align: center;
-            transition: var(--transition);
+            transition: var(--transition-slow);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .value-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+            transform: scaleX(0);
+            transition: var(--transition-base);
+        }
+
+        .value-card:hover::before {
+            transform: scaleX(1);
         }
         
         .value-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: rgba(217, 119, 6, 0.2);
         }
         
         .value-icon {
-            font-size: 3rem;
-            margin-bottom: var(--space-md);
-            display: block;
+            margin-bottom: var(--space-6);
+            display: flex;
+            justify-content: center;
+        }
+
+        .value-icon ion-icon {
+            font-size: 4rem;
+            color: var(--color-primary);
         }
         
         .value-card h3 {
-            color: var(--color-charcoal);
-            margin-bottom: var(--space-sm);
+            color: var(--color-text);
+            margin-bottom: var(--space-4);
         }
         
         .value-card p {
-            font-size: 1rem;
-            color: var(--color-text-light);
-            margin-bottom: 0;
+            font-size: 1.0625rem;
+            color: var(--color-text-secondary);
         }
         
         /* ========================================
@@ -453,21 +706,29 @@
            ======================================== */
         
         .features {
-            background: var(--color-cream);
+            background: var(--color-bg);
         }
         
         .features-header {
             text-align: center;
-            max-width: 700px;
-            margin: 0 auto var(--space-3xl);
+            max-width: 800px;
+            margin: 0 auto var(--space-20);
+        }
+
+        .features-header h2 {
+            margin-bottom: var(--space-4);
+        }
+
+        .features-header p {
+            font-size: 1.25rem;
         }
         
         .feature-item {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: var(--space-3xl);
+            gap: var(--space-16);
             align-items: center;
-            margin-bottom: var(--space-3xl);
+            margin-bottom: var(--space-20);
         }
         
         .feature-item:nth-child(even) .feature-content {
@@ -479,11 +740,11 @@
         }
         
         .feature-visual {
-            background: var(--color-white);
-            padding: var(--space-xl);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow);
-            min-height: 350px;
+            background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-tertiary) 100%);
+            padding: var(--space-12);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-lg);
+            min-height: 400px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -498,46 +759,73 @@
             right: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(135, 168, 120, 0.08) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(217, 119, 6, 0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         
         .feature-icon-large {
-            font-size: 8rem;
-            opacity: 0.6;
             position: relative;
             z-index: 1;
         }
+
+        .feature-icon-large ion-icon {
+            font-size: 10rem;
+            color: var(--color-primary);
+            opacity: 0.7;
+        }
         
         .feature-content h3 {
-            font-size: 2rem;
-            margin-bottom: var(--space-md);
+            font-size: 2.25rem;
+            margin-bottom: var(--space-6);
         }
         
         .feature-content p {
             font-size: 1.125rem;
-            margin-bottom: var(--space-md);
+            margin-bottom: var(--space-6);
+            line-height: 1.8;
         }
         
         .feature-list {
             list-style: none;
-            margin-top: var(--space-lg);
+            margin-top: var(--space-8);
         }
         
         .feature-list li {
-            padding: var(--space-sm) 0;
-            padding-left: var(--space-xl);
+            padding: var(--space-3) 0;
+            padding-left: var(--space-10);
             position: relative;
-            color: var(--color-text-light);
+            color: var(--color-text-secondary);
             font-size: 1.0625rem;
+            line-height: 1.7;
         }
         
         .feature-list li::before {
-            content: '✓';
+            content: '';
             position: absolute;
             left: 0;
-            color: var(--color-sage);
+            top: var(--space-3);
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature-list li::after {
+            content: '✓';
+            position: absolute;
+            left: 9px;
+            top: 14px;
+            color: white;
             font-weight: 700;
-            font-size: 1.25rem;
+            font-size: 1rem;
         }
         
         /* ========================================
@@ -545,74 +833,83 @@
            ======================================== */
         
         .cta {
-            background: linear-gradient(135deg, var(--color-sage) 0%, var(--color-sage-dark) 100%);
-            color: var(--color-white);
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            color: white;
             text-align: center;
             position: relative;
             overflow: hidden;
         }
         
-        .cta::before {
+        .cta::before,
+        .cta::after {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
+            border-radius: 50%;
         }
-        
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+
+        .cta::before {
+            top: -10%;
+            left: -5%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .cta::after {
+            bottom: -20%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite reverse;
         }
         
         .cta-content {
-            max-width: 700px;
+            max-width: 800px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
         }
         
         .cta h2 {
-            color: var(--color-white);
-            margin-bottom: var(--space-md);
+            color: white;
+            margin-bottom: var(--space-6);
         }
         
         .cta p {
             color: rgba(255, 255, 255, 0.95);
             font-size: 1.25rem;
-            margin-bottom: var(--space-xl);
+            margin-bottom: var(--space-10);
         }
         
         .cta-buttons {
             display: flex;
-            gap: var(--space-md);
+            gap: var(--space-4);
             justify-content: center;
             flex-wrap: wrap;
         }
         
         .btn-white {
-            background: var(--color-white);
-            color: var(--color-sage-dark);
+            background: white;
+            color: var(--color-primary-dark);
         }
         
         .btn-white:hover {
-            background: var(--color-cream);
+            background: var(--color-bg);
             transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
         
         .btn-outline-white {
             background: transparent;
-            color: var(--color-white);
-            border: 2px solid var(--color-white);
+            color: white;
+            border: 2px solid white;
         }
         
         .btn-outline-white:hover {
-            background: var(--color-white);
-            color: var(--color-sage-dark);
+            background: white;
+            color: var(--color-primary-dark);
         }
         
         /* ========================================
@@ -620,23 +917,40 @@
            ======================================== */
         
         footer {
-            background: var(--color-charcoal);
+            background: var(--color-text);
             color: rgba(255, 255, 255, 0.8);
-            padding: var(--space-2xl) 0 var(--space-lg);
+            padding: var(--space-16) 0 var(--space-8);
         }
         
         .footer-content {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: var(--space-2xl);
-            margin-bottom: var(--space-xl);
+            gap: var(--space-12);
+            margin-bottom: var(--space-12);
+        }
+        
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+
+        .footer-brand-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .footer-brand-header ion-icon {
+            font-size: 2rem;
+            color: var(--color-primary-light);
         }
         
         .footer-brand h4 {
-            font-family: var(--font-heading);
-            color: var(--color-white);
+            font-family: var(--font-display);
+            color: white;
             font-size: 1.5rem;
-            margin-bottom: var(--space-md);
+            margin: 0;
         }
         
         .footer-brand p {
@@ -646,11 +960,11 @@
         }
         
         .footer-section h5 {
-            color: var(--color-white);
+            color: white;
             font-family: var(--font-body);
             font-size: 1.125rem;
             font-weight: 600;
-            margin-bottom: var(--space-md);
+            margin-bottom: var(--space-5);
         }
         
         .footer-links {
@@ -658,24 +972,25 @@
         }
         
         .footer-links li {
-            margin-bottom: var(--space-sm);
+            margin-bottom: var(--space-3);
         }
         
         .footer-links a {
             color: rgba(255, 255, 255, 0.7);
             text-decoration: none;
-            transition: var(--transition);
+            transition: var(--transition-base);
             font-size: 0.9375rem;
+            display: inline-block;
         }
         
         .footer-links a:hover {
-            color: var(--color-sage-light);
-            padding-left: var(--space-xs);
+            color: var(--color-primary-light);
+            transform: translateX(4px);
         }
         
         .footer-bottom {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: var(--space-lg);
+            padding-top: var(--space-8);
             text-align: center;
             color: rgba(255, 255, 255, 0.6);
             font-size: 0.9375rem;
@@ -688,104 +1003,443 @@
         @media (max-width: 1024px) {
             .hero-content {
                 grid-template-columns: 1fr;
-                gap: var(--space-xl);
+                gap: var(--space-12);
             }
             
             .hero-visual {
-                display: none;
+                max-width: 500px;
+                margin: 0 auto;
             }
             
             .value-cards {
                 grid-template-columns: 1fr;
-                gap: var(--space-md);
             }
             
             .feature-item {
                 grid-template-columns: 1fr;
-                gap: var(--space-xl);
+                gap: var(--space-12);
             }
             
-            .feature-item:nth-child(even) .feature-content {
-                order: 1;
-            }
-            
+            .feature-item:nth-child(even) .feature-content,
             .feature-item:nth-child(even) .feature-visual {
-                order: 2;
+                order: initial;
             }
             
             .footer-content {
                 grid-template-columns: 1fr 1fr;
-                gap: var(--space-xl);
+                gap: var(--space-10);
             }
         }
         
         @media (max-width: 768px) {
             section {
-                padding: var(--space-2xl) 0;
+                padding: var(--space-16) 0;
             }
             
             h1 {
                 font-size: 2.5rem;
+                line-height: 1.1;
             }
             
             h2 {
                 font-size: 2rem;
+                line-height: 1.2;
+            }
+
+            h3 {
+                font-size: 1.5rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+            
+            .nav-content {
+                padding: var(--space-3) var(--space-4);
+            }
+
+            .logo {
+                font-size: 1.25rem;
+            }
+
+            .logo ion-icon {
+                font-size: 1.5rem;
             }
             
             .nav-buttons {
-                gap: var(--space-sm);
+                gap: var(--space-2);
+            }
+
+            .theme-toggle {
+                padding: var(--space-2);
+            }
+
+            .theme-toggle ion-icon {
+                font-size: 1.25rem;
             }
             
             .btn {
-                padding: 0.75rem 1.5rem;
+                padding: var(--space-3) var(--space-5);
                 font-size: 0.9375rem;
             }
             
             .btn-large {
-                padding: 1rem 2rem;
+                padding: var(--space-4) var(--space-6);
                 font-size: 1rem;
             }
             
             .hero {
                 min-height: auto;
-                padding: calc(80px + var(--space-2xl)) 0 var(--space-2xl);
+                padding: calc(70px + var(--space-12)) 0 var(--space-12);
+            }
+
+            .hero-badge {
+                font-size: 0.8125rem;
+                padding: var(--space-2) var(--space-4);
+            }
+
+            .hero-badge ion-icon {
+                font-size: 1rem;
+            }
+
+            .book-stack {
+                height: 450px;
+                margin-top: var(--space-8);
+            }
+
+            .book {
+                width: 160px;
+                height: 220px;
+            }
+
+            .book span {
+                font-size: 0.75rem;
+                padding: var(--space-3);
+            }
+
+            .book-1 {
+                left: 10px;
+                top: 30px;
+            }
+
+            .book-2 {
+                right: 10px;
+                top: 100px;
+            }
+
+            .book-3 {
+                left: 50%;
+                transform: translateX(-50%) rotate(-4deg);
+                top: 220px;
+            }
+
+            .book-3:hover {
+                transform: translateX(-50%) translateY(-15px) rotate(-4deg) scale(1.05);
             }
             
             .hero-subtitle {
-                font-size: 1.125rem;
+                font-size: 1.0625rem;
+                margin-bottom: var(--space-6);
             }
             
-            .hero-buttons {
+            .hero-buttons,
+            .cta-buttons {
                 flex-direction: column;
-            }
-            
-            .hero-buttons .btn {
                 width: 100%;
+                gap: var(--space-3);
             }
             
+            .hero-buttons .btn,
+            .cta-buttons .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .stats {
+                padding: var(--space-12) 0;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--space-4);
+            }
+
+            .stat-item {
+                padding: var(--space-5);
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+
+            .stat-label {
+                font-size: 0.875rem;
+            }
+            
+            .value-prop-header {
+                margin-bottom: var(--space-12);
+            }
+
             .value-prop-text {
-                font-size: 1.125rem;
+                font-size: 1.0625rem;
+            }
+
+            .value-cards {
+                gap: var(--space-6);
+            }
+
+            .value-card {
+                padding: var(--space-8);
+            }
+
+            .value-icon ion-icon {
+                font-size: 3rem;
+            }
+
+            .value-card h3 {
+                font-size: 1.375rem;
+            }
+
+            .value-card p {
+                font-size: 1rem;
+            }
+
+            .features-header {
+                margin-bottom: var(--space-12);
+            }
+
+            .features-header p {
+                font-size: 1.0625rem;
+            }
+
+            .feature-item {
+                margin-bottom: var(--space-12);
             }
             
             .feature-visual {
-                min-height: 250px;
+                min-height: 280px;
+                padding: var(--space-8);
             }
             
-            .feature-icon-large {
+            .feature-icon-large ion-icon {
                 font-size: 5rem;
             }
-            
-            .cta-buttons {
-                flex-direction: column;
+
+            .feature-content h3 {
+                font-size: 1.75rem;
             }
-            
-            .cta-buttons .btn {
-                width: 100%;
+
+            .feature-content p {
+                font-size: 1.0625rem;
+            }
+
+            .feature-list {
+                margin-top: var(--space-6);
+            }
+
+            .feature-list li {
+                font-size: 1rem;
+                padding-left: var(--space-8);
+            }
+
+            .feature-list li::before {
+                width: 28px;
+                height: 28px;
+            }
+
+            .feature-list li::after {
+                left: 8px;
+                top: 13px;
+                font-size: 0.875rem;
+            }
+
+            .cta {
+                padding: var(--space-16) 0;
+            }
+
+            .cta h2 {
+                font-size: 1.875rem;
+            }
+
+            .cta p {
+                font-size: 1.0625rem;
+                margin-bottom: var(--space-8);
+            }
+
+            footer {
+                padding: var(--space-12) 0 var(--space-6);
             }
             
             .footer-content {
                 grid-template-columns: 1fr;
-                gap: var(--space-xl);
+                gap: var(--space-8);
+            }
+
+            .footer-brand-header ion-icon {
+                font-size: 1.75rem;
+            }
+
+            .footer-brand h4 {
+                font-size: 1.375rem;
+            }
+
+            .footer-brand p {
+                font-size: 0.9375rem;
+            }
+
+            .footer-section h5 {
+                font-size: 1rem;
+                margin-bottom: var(--space-4);
+            }
+
+            .footer-links a {
+                font-size: 0.875rem;
+            }
+
+            .footer-bottom {
+                padding-top: var(--space-6);
+                font-size: 0.875rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container,
+            .container-narrow {
+                padding: 0 var(--space-4);
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.75rem;
+            }
+
+            .nav-content {
+                padding: var(--space-3) var(--space-4);
+            }
+
+            .logo {
+                font-size: 1.125rem;
+                gap: var(--space-2);
+            }
+
+            .logo ion-icon {
+                font-size: 1.375rem;
+            }
+
+            .nav-buttons .btn {
+                padding: var(--space-2) var(--space-4);
+                font-size: 0.875rem;
+            }
+
+            .hero {
+                padding: calc(70px + var(--space-10)) 0 var(--space-10);
+            }
+
+            .hero-badge {
+                font-size: 0.75rem;
+            }
+
+            .book-stack {
+                height: 380px;
+            }
+
+            .book {
+                width: 140px;
+                height: 190px;
+            }
+
+            .book-1 {
+                left: 5px;
+                top: 20px;
+            }
+
+            .book-2 {
+                right: 5px;
+                top: 90px;
+            }
+
+            .book-3 {
+                top: 190px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-4);
+            }
+
+            .stat-number {
+                font-size: 2.25rem;
+            }
+
+            .value-card {
+                padding: var(--space-6);
+            }
+
+            .value-icon ion-icon {
+                font-size: 2.75rem;
+            }
+
+            .feature-visual {
+                min-height: 240px;
+                padding: var(--space-6);
+            }
+
+            .feature-icon-large ion-icon {
+                font-size: 4rem;
+            }
+
+            .feature-content h3 {
+                font-size: 1.5rem;
+            }
+
+            .cta h2 {
+                font-size: 1.625rem;
+            }
+
+            .btn-large {
+                padding: var(--space-3) var(--space-5);
+                font-size: 0.9375rem;
+            }
+        }
+
+        /* Landscape orientation fixes for mobile */
+        @media (max-height: 600px) and (orientation: landscape) {
+            .hero {
+                min-height: auto;
+                padding: calc(70px + var(--space-8)) 0 var(--space-8);
+            }
+
+            .book-stack {
+                height: 300px;
+            }
+
+            .book {
+                width: 120px;
+                height: 160px;
+            }
+
+            section {
+                padding: var(--space-12) 0;
+            }
+        }
+
+        /* Touch improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .btn {
+                min-height: 44px;
+            }
+
+            .theme-toggle {
+                min-width: 44px;
+                min-height: 44px;
+            }
+
+            .footer-links a {
+                padding: var(--space-2) 0;
+                display: block;
             }
         }
     </style>
@@ -795,84 +1449,116 @@
     <!-- Navigation -->
     <nav>
         <div class="nav-content">
-            <a href="#" class="logo">
-                <span class="logo-icon">📚</span>
-                Onlayn kitob javoni
+            <a href="/" class="logo">
+                <ion-icon name="library-outline"></ion-icon>
+                Kitoblar Dunyosi
             </a>
             <div class="nav-buttons">
-                <a href="/accounts/login" class="btn btn-secondary">Login</a>
-                <a href="/accounts/register" class="btn btn-primary">Get Started</a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                    <ion-icon name="moon-outline" id="themeIcon"></ion-icon>
+                </button>
+                <a href="/accounts/login" class="btn btn-secondary">Kirish</a>
+                <a href="/accounts/register" class="btn btn-primary">Boshlash</a>
             </div>
         </div>
     </nav>
     
     <!-- Hero Section -->
     <section class="hero">
-        <div class="container-wide">
+        <div class="container">
             <div class="hero-content">
                 <div class="hero-text">
-                    <span class="hero-badge">O'qish safaringizni boshlang</span>
+                    <span class="hero-badge">
+                        <ion-icon name="sparkles-outline"></ion-icon>
+                        O'qish safaringizni boshlang
+                    </span>
                     <h1>Kitoblaringiz. Sayohatingiz. Hammasi bir joyda.</h1>
                     <p class="hero-subtitle">
-                        Shaxsiy raqamli kitob javoningizni yarating, o'qish jarayonini kuzatib boring, 
-                        va adabiy sarguzashtlaringizni kitob ixlosmandlari jamoasi bilan baham ko'ring.
+                        Shaxsiy raqamli kutubxonangizni yarating, o'qish jarayonini kuzatib boring, 
+                        va adabiy kashfiyotlaringizni kitobsevarlar jamoasi bilan baham ko'ring.
                     </p>
                     <div class="hero-buttons">
-                        <a href="/accounts/register" class="btn btn-primary btn-large">Create Free Account</a>
-                        <a href="#features" class="btn btn-secondary btn-large">See How It Works</a>
+                        <a href="/accounts/register" class="btn btn-primary btn-large">Ro'yxatdan o'tish</a>
+                        <a href="#features" class="btn btn-secondary btn-large">Qanday ishlaydi</a>
                     </div>
                 </div>
                 <div class="hero-visual">
-                <div class="book-stack">
-
-                    <div class="book book-1">
-                    <img src="{% static 'books/atomic-habits.jpg' %}" alt="Atomic Habits">
-                    <span>Hozirda o‘qiyapman</span>
+                    <div class="book-stack">
+                        <div class="book book-1">
+                            <img src="{% static 'css/books/bahtiyor-oila.jpg' %}" alt="Atomic Habits">
+                            <span>Baxtli oila qurishning hayotiy qo‘llanmasi</span>
+                        </div>
+                        <div class="book book-2">
+                            <img src="{% static 'css/books/MEN-Fotih-Duman.jpg' %}" alt="Rich Dad Poor Dad">
+                            <span>Ichki kuch va Iymon orqali o‘zini topish</span>
+                        </div>
+                        <div class="book book-3">
+                            <img src="{% static 'css/books/atom-odatlar.2.jpg' %}" alt="Deep Work">
+                            <span>Kichik odatlar bilan katta natijalar</span>
+                        </div>
                     </div>
-
-                    <div class="book book-2">
-                    <img src="{% static 'books/rich-dad.jpg' %}" alt="Rich Dad Poor Dad">
-                    <span>O‘qishni xohlayman</span>
-                    </div>
-
-                    <div class="book book-3">
-                    <img src="{% static 'books/deep-work.jpg' %}" alt="Deep Work">
-                    <span>Tugallandi</span>
-                    </div>
-
                 </div>
-                </div>
-
             </div>
         </div>
     </section>
     
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">10K+</span>
+                    <p class="stat-label">Faol o'quvchilar</p>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">50K+</span>
+                    <p class="stat-label">Qo'shilgan kitoblar</p>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">25K+</span>
+                    <p class="stat-label">Yozilgan sharhlar</p>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100K+</span>
+                    <p class="stat-label">O'qilgan sahifalar</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Value Proposition Section -->
     <section class="value-prop">
         <div class="container">
-            <div class="value-prop-content">
-                <h2>Nima uchun onlayn kitob javoni?</h2>
+            <div class="value-prop-header">
+                <h2>Nima uchun Kitoblar Dunyosi?</h2>
                 <p class="value-prop-text">
-                    O'qish shaxsiy, ammo ijtimoiy hamdir. Onlayn kitob javoni sizga tartibli bo'lishga yordam beradi 
-                    kitoblarga bo'lgan muhabbatingizni baham ko'radigan boshqalar bilan bog'lanib, o'qish hayotingiz.
+                    O'qish shaxsiy jarayon, lekin ijtimoiy tajribadır. Biz sizga kitoblaringizni 
+                    tartibga solishda, rivojlanishni kuzatishda va bir xil qiziqishlaringiz bilan 
+                    boshqa kitobsevarlar bilan bog'lanishda yordam beramiz.
                 </p>
             </div>
             
             <div class="value-cards">
                 <div class="value-card">
-                    <span class="value-icon">🎯</span>
-                    <h3>Stay Organized</h3>
-                    <p>Keep all your books in one beautiful, easy-to-manage digital space.</p>
+                    <div class="value-icon">
+                        <ion-icon name="telescope-outline"></ion-icon>
+                    </div>
+                    <h3>Tartibli saqlang</h3>
+                    <p>Barcha kitoblaringizni go'zal va oson boshqariladigan raqamli javonda saqlang.</p>
                 </div>
                 <div class="value-card">
-                    <span class="value-icon">📈</span>
-                    <h3>Track Progress</h3>
-                    <p>Watch your reading goals come to life with visual tracking and insights.</p>
+                    <div class="value-icon">
+                        <ion-icon name="trending-up-outline"></ion-icon>
+                    </div>
+                    <h3>Rivojlanishni kuzating</h3>
+                    <p>O'qish maqsadlaringiz vizual kuzatuv va tahlillar orqali jonlaning.</p>
                 </div>
                 <div class="value-card">
-                    <span class="value-icon">💬</span>
-                    <h3>Share & Connect</h3>
-                    <p>Discover what others are reading and inspire each other's next great read.</p>
+                    <div class="value-icon">
+                        <ion-icon name="people-outline"></ion-icon>
+                    </div>
+                    <h3>Baham ko'ring</h3>
+                    <p>Boshqalar nima o'qiyotganini ko'ring va bir-biringizni ilhomlantiring.</p>
                 </div>
             </div>
         </div>
@@ -882,60 +1568,66 @@
     <section class="features" id="features">
         <div class="container">
             <div class="features-header">
-                <h2>Everything You Need to Love Reading More</h2>
-                <p>Simple tools that help you build a meaningful reading habit.</p>
+                <h2>O'qishni yaxshi ko'rish uchun hamma narsa</h2>
+                <p>Ma'noli o'qish odatini shakllantirishga yordam beradigan oddiy vositalar.</p>
             </div>
             
             <div class="feature-item">
                 <div class="feature-visual">
-                    <span class="feature-icon-large">📖</span>
+                    <div class="feature-icon-large">
+                        <ion-icon name="book-outline"></ion-icon>
+                    </div>
                 </div>
                 <div class="feature-content">
-                    <h3>Build Your Personal Shelf</h3>
+                    <h3>Shaxsiy kutubxonangizni yarating</h3>
                     <p>
-                        Create a beautiful digital bookshelf that reflects your reading personality. 
-                        Add books you've read, books you're reading, and books you want to read next.
+                        O'qish shaxsiyatingizni aks ettiradigan go'zal raqamli kitob javonini yarating. 
+                        O'qigan, o'qiyotgan va o'qimoqchi bo'lgan kitoblaringizni qo'shing.
                     </p>
                     <ul class="feature-list">
-                        <li>Organize books into custom collections</li>
-                        <li>Search and add books easily</li>
-                        <li>Beautiful cover displays</li>
+                        <li>Kitoblarni maxsus to'plamlarga ajrating</li>
+                        <li>Kitoblarni oson qidiring va qo'shing</li>
+                        <li>Go'zal muqova ko'rinishlari</li>
                     </ul>
                 </div>
             </div>
             
             <div class="feature-item">
                 <div class="feature-visual">
-                    <span class="feature-icon-large">✍️</span>
+                    <div class="feature-icon-large">
+                        <ion-icon name="create-outline"></ion-icon>
+                    </div>
                 </div>
                 <div class="feature-content">
-                    <h3>Capture Your Thoughts</h3>
+                    <h3>Fikrlaringizni saqlang</h3>
                     <p>
-                        Write summaries, reflections, and notes about the books you read. 
-                        Create a personal archive of your reading journey and insights.
+                        O'qigan kitoblaringiz haqida xulosalar, mulohazalar va eslatmalar yozing. 
+                        O'qish sayohatingiz va tushunchalaringizning shaxsiy arxivini yarating.
                     </p>
                     <ul class="feature-list">
-                        <li>Write detailed book summaries</li>
-                        <li>Add personal reflections and quotes</li>
-                        <li>Tag and categorize your notes</li>
+                        <li>Batafsil kitob xulosalarini yozing</li>
+                        <li>Shaxsiy mulohazalar va iqtiboslar qo'shing</li>
+                        <li>Eslatmalaringizni teglang va toifalang</li>
                     </ul>
                 </div>
             </div>
             
             <div class="feature-item">
                 <div class="feature-visual">
-                    <span class="feature-icon-large">🌟</span>
+                    <div class="feature-icon-large">
+                        <ion-icon name="star-outline"></ion-icon>
+                    </div>
                 </div>
                 <div class="feature-content">
-                    <h3>Share Your Reading Life</h3>
+                    <h3>O'qish hayotingizni baham ko'ring</h3>
                     <p>
-                        Connect with other readers who share your interests. See what others 
-                        are reading, get recommendations, and inspire each other.
+                        Qiziqishlaringiz mos keladigan boshqa o'quvchilar bilan bog'laning. 
+                        Boshqalar nima o'qiyotganini ko'ring, tavsiyalar oling va bir-biringizni ilhomlantiring.
                     </p>
                     <ul class="feature-list">
-                        <li>Share your bookshelf with friends</li>
-                        <li>Discover new books through the community</li>
-                        <li>Follow readers with similar tastes</li>
+                        <li>Kutubxonangizni do'stlar bilan baham ko'ring</li>
+                        <li>Jamoa orqali yangi kitoblarni kashf eting</li>
+                        <li>O'xshash didga ega o'quvchilarni kuzatib boring</li>
                     </ul>
                 </div>
             </div>
@@ -946,14 +1638,14 @@
     <section class="cta" id="cta">
         <div class="container">
             <div class="cta-content">
-                <h2>Ready to Start Your Reading Journey?</h2>
+                <h2>O'qish safaringizni boshlashga tayyormisiz?</h2>
                 <p>
-                    Join thousands of readers who are building their personal libraries and 
-                    sharing their love for books. It's free to get started.
+                    Shaxsiy kutubxonalarini qurayotgan va kitoblarga bo'lgan muhabbatlarini 
+                    baham ko'rayotgan minglab o'quvchilarga qo'shiling. Boshlash bepul.
                 </p>
                 <div class="cta-buttons">
-                    <a href="#" class="btn btn-white btn-large">Create Your Account</a>
-                    <a href="#" class="btn btn-outline-white btn-large">Login to Your Shelf</a>
+                    <a href="/accounts/register" class="btn btn-white btn-large">Ro'yxatdan o'tish</a>
+                    <a href="/accounts/login" class="btn btn-outline-white btn-large">Hisobingizga kiring</a>
                 </div>
             </div>
         </div>
@@ -964,48 +1656,77 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <h4>📚 Online Book Shelf</h4>
+                    <div class="footer-brand-header">
+                        <ion-icon name="library-outline"></ion-icon>
+                        <h4>Kitoblar Dunyosi</h4>
+                    </div>
                     <p>
-                        A social reading tracker for book lovers. 
-                        Build your shelf, track your progress, and share your journey.
+                        Kitobsevarlar uchun ijtimoiy o'qish kuzatuvchisi. 
+                        Kutubxonangizni yarating, rivojlanishni kuzating va safaringizni baham ko'ring.
                     </p>
                 </div>
                 
                 <div class="footer-section">
-                    <h5>Product</h5>
+                    <h5>Mahsulot</h5>
                     <ul class="footer-links">
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#">How It Works</a></li>
-                        <li><a href="#">Pricing</a></li>
-                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#features">Xususiyatlar</a></li>
+                        <li><a href="#">Qanday ishlaydi</a></li>
+                        <li><a href="#">Narxlar</a></li>
+                        <li><a href="#">Ko'p so'raladigan savollar</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-section">
-                    <h5>Company</h5>
+                    <h5>Kompaniya</h5>
                     <ul class="footer-links">
-                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Biz haqimizda</a></li>
                         <li><a href="#">Blog</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Karyera</a></li>
+                        <li><a href="#">Aloqa</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-section">
-                    <h5>Legal</h5>
+                    <h5>Huquqiy</h5>
                     <ul class="footer-links">
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">Maxfiylik siyosati</a></li>
+                        <li><a href="#">Foydalanish shartlari</a></li>
+                        <li><a href="#">Cookie siyosati</a></li>
                     </ul>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2024 Online Book Shelf. All rights reserved. Made with love for readers.</p>
+                <p>&copy; 2024 Kitoblar Dunyosi. Barcha huquqlar himoyalangan. Kitobsevarlarga mehr bilan yaratildi.</p>
             </div>
         </div>
     </footer>
+
+    <!-- Theme Toggle Script -->
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const body = document.body;
+
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        if (currentTheme === 'dark') {
+            body.classList.add('dark');
+            themeIcon.setAttribute('name', 'sunny-outline');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark');
+            
+            if (body.classList.contains('dark')) {
+                themeIcon.setAttribute('name', 'sunny-outline');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.setAttribute('name', 'moon-outline');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    </script>
     
 </body>
 </html>

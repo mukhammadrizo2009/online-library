@@ -1,300 +1,1047 @@
-{% extends 'base.html' %}
-
-{% block title %}Bosh sahifa - Online Book{% endblock %}
+{% load static %}
+{% block title %}Ro'yxatdan o'tish - Online Book{% endblock %}
 
 {% block extra_css %}
+
+<link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Icons -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+<!-- Mobile Optimization -->
+<meta name="theme-color" content="#d97706">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
 <style>
-    /* Hero Section */
-    .hero {
-        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #fef3c7 100%);
-        padding: 4rem 2rem;
-        border-radius: 1.5rem;
-        margin-bottom: 3rem;
+    /* Reset */
+    .register-page-wrapper * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* Variables */
+    .register-page-wrapper {
+        --color-primary: #d97706;
+        --color-primary-light: #fbbf24;
+        --color-primary-dark: #b45309;
+        --color-secondary: #0d9488;
+        --color-secondary-light: #14b8a6;
+        --color-bg: #fffbf5;
+        --color-bg-tertiary: #fff;
+        --color-text: #292524;
+        --color-text-secondary: #57534e;
+        --color-text-light: #78716c;
+        --font-display: 'Fraunces', serif;
+        --font-body: 'DM Sans', sans-serif;
+        --radius-lg: 1rem;
+        --radius-2xl: 2rem;
+        --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Page Wrapper */
+    .register-page-wrapper {
+        font-family: var(--font-body);
+        background: linear-gradient(135deg, 
+            rgba(217, 119, 6, 0.08) 0%, 
+            rgba(13, 148, 136, 0.08) 100%),
+            #fffbf5;
+        min-height: 100vh;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px !important;
         position: relative;
         overflow: hidden;
+        width: 100%;
     }
-    
-    .hero::before {
+
+    /* Animated background */
+    .register-page-wrapper::before {
         content: '';
         position: absolute;
         top: -50%;
-        right: -10%;
-        width: 500px;
-        height: 500px;
-        background: radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, transparent 70%);
+        right: -20%;
+        width: 800px;
+        height: 800px;
+        background: radial-gradient(circle, rgba(217, 119, 6, 0.15) 0%, transparent 70%);
         border-radius: 50%;
+        animation: floatAnim 20s ease-in-out infinite;
+        pointer-events: none;
     }
-    
-    .hero-content {
-        max-width: 700px;
-        position: relative;
-        z-index: 1;
-    }
-    
-    .hero h1 {
-        font-family: var(--font-display);
-        font-size: clamp(2rem, 5vw, 3.5rem);
-        color: var(--primary);
-        margin-bottom: 1.5rem;
-        line-height: 1.2;
-    }
-    
-    .hero-accent {
-        color: var(--accent);
-        position: relative;
-    }
-    
-    .hero-accent::after {
+
+    .register-page-wrapper::after {
         content: '';
         position: absolute;
-        bottom: 5px;
+        bottom: -30%;
+        left: -10%;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(13, 148, 136, 0.1) 0%, transparent 70%);
+        border-radius: 50%;
+        animation: floatAnim 25s ease-in-out infinite reverse;
+        pointer-events: none;
+    }
+
+    @keyframes floatAnim {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(-30px, -30px) scale(1.1); }
+    }
+
+    /* Container */
+    .register-container {
+        width: 100%;
+        max-width: 500px;
+        position: relative;
+        z-index: 10;
+        animation: slideInAnim 0.6s ease-out;
+    }
+
+    @keyframes slideInAnim {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Box */
+    .register-box {
+        background: white;
+        padding: 3rem 2.5rem;
+        border-radius: 2rem;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .register-box::before {
+        content: '';
+        position: absolute;
+        top: 0;
         left: 0;
         right: 0;
-        height: 0.5rem;
-        background: rgba(245, 158, 11, 0.3);
-        z-index: -1;
+        height: 4px;
+        background: linear-gradient(90deg, #d97706, #0d9488);
     }
-    
-    .hero p {
-        font-size: 1.25rem;
-        color: var(--text-light);
+
+    /* Logo */
+    .logo-container {
+        text-align: center;
         margin-bottom: 2rem;
-        line-height: 1.8;
     }
-    
-    .hero-buttons {
+
+    .logo {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .logo-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #d97706 0%, #0d9488 100%);
+        border-radius: 50%;
         display: flex;
-        gap: 1rem;
-        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        animation: pulseAnim 2s ease-in-out infinite;
+        box-shadow: 0 10px 30px rgba(217, 119, 6, 0.3);
     }
-    
-    .btn-large {
-        padding: 1rem 2.5rem;
-        font-size: 1.1rem;
-    }
-    
-    /* Features Grid */
-    .features {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 2rem;
-        margin-bottom: 4rem;
-    }
-    
-    .feature-card {
-        background: white;
-        padding: 2rem;
-        border-radius: 1rem;
-        box-shadow: var(--shadow-md);
-        transition: var(--transition);
-        border: 2px solid transparent;
-    }
-    
-    .feature-card:hover {
-        transform: translateY(-8px);
-        box-shadow: var(--shadow-xl);
-        border-color: var(--accent);
-    }
-    
-    .feature-icon {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-        display: block;
-    }
-    
-    .feature-card h3 {
-        font-family: var(--font-display);
-        font-size: 1.5rem;
-        color: var(--primary);
-        margin-bottom: 1rem;
-    }
-    
-    .feature-card p {
-        color: var(--text-light);
-        line-height: 1.7;
-    }
-    
-    /* Stats Section */
-    .stats {
-        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-        padding: 3rem 2rem;
-        border-radius: 1.5rem;
-        margin-bottom: 4rem;
-    }
-    
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 2rem;
-        text-align: center;
-    }
-    
-    .stat-item {
+
+    .logo-icon ion-icon {
+        font-size: 30px;
         color: white;
     }
-    
-    .stat-number {
-        font-family: var(--font-display);
-        font-size: 3rem;
-        font-weight: 700;
+
+    @keyframes pulseAnim {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+
+    .register-box h2 {
+        font-family: 'Fraunces', serif;
+        color: #292524;
+        font-size: 2rem;
+        text-align: center;
         margin-bottom: 0.5rem;
-        display: block;
+        font-weight: 700;
     }
-    
-    .stat-label {
-        font-size: 1.1rem;
-        opacity: 0.9;
-    }
-    
-    /* CTA Section */
-    .cta {
-        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
-        padding: 3rem 2rem;
-        border-radius: 1.5rem;
+
+    .subtitle {
         text-align: center;
-        color: white;
-    }
-    
-    .cta h2 {
-        font-family: var(--font-display);
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-    }
-    
-    .cta p {
-        font-size: 1.2rem;
+        color: #57534e;
+        font-size: 0.9375rem;
         margin-bottom: 2rem;
-        opacity: 0.95;
     }
-    
-    .btn-white {
-        background: white;
-        color: var(--accent-dark);
-        padding: 1rem 2.5rem;
-        border-radius: var(--radius-md);
-        font-weight: 600;
+
+    .subtitle a {
+        color: #d97706;
         text-decoration: none;
-        display: inline-block;
-        transition: var(--transition);
+        font-weight: 600;
+        transition: color 0.3s ease;
     }
-    
-    .btn-white:hover {
+
+    .subtitle a:hover {
+        color: #b45309;
+        text-decoration: underline;
+    }
+
+    /* Error/Success Messages */
+    .error, .success {
+        padding: 1rem;
+        border-radius: 1rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-size: 0.875rem;
+        animation: shakeAnim 0.5s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .error {
+        background: linear-gradient(135deg, #fee 0%, #fdd 100%);
+        color: #c33;
+        border-left: 4px solid #c33;
+    }
+
+    .error ion-icon {
+        font-size: 1.25rem;
+    }
+
+    .success {
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        color: #065f46;
+        border-left: 4px solid #10b981;
+    }
+
+    .success ion-icon {
+        font-size: 1.25rem;
+    }
+
+    @keyframes shakeAnim {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-10px); }
+        75% { transform: translateX(10px); }
+    }
+
+    /* Form */
+    .register-form {
+        position: relative;
+    }
+
+    /* Input Groups */
+    .input-group {
+        position: relative;
+        margin-bottom: 1.5rem;
+    }
+
+    .input-group label {
+        position: absolute;
+        top: 50%;
+        left: 3rem;
+        transform: translateY(-50%);
+        color: #78716c;
+        font-size: 0.9375rem;
+        pointer-events: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background: white;
+        padding: 0 0.5rem;
+        font-weight: 500;
+        z-index: 1;
+    }
+
+    .input-group input:focus + label,
+    .input-group input:not(:placeholder-shown) + label {
+        top: 0;
+        font-size: 0.75rem;
+        color: #d97706;
+        font-weight: 600;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 1.125rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #78716c;
+        transition: color 0.3s ease;
+        z-index: 1;
+    }
+
+    .input-icon ion-icon {
+        font-size: 1.25rem;
+    }
+
+    .input-group input:focus ~ .input-icon {
+        color: #d97706;
+    }
+
+    .input-group input {
+        width: 100%;
+        padding: 1rem 1rem 1rem 3rem;
+        border: 2px solid #e7e5e4;
+        border-radius: 1rem;
+        font-size: 1rem;
+        font-family: 'DM Sans', sans-serif;
+        transition: all 0.3s ease;
+        background: white;
+        color: #292524;
+    }
+
+    .input-group input:focus {
+        outline: none;
+        border-color: #d97706;
+        box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.1);
+    }
+
+    .input-group input::placeholder {
+        color: transparent;
+    }
+
+    /* Password Toggle */
+    .password-toggle {
+        position: absolute;
+        right: 1.125rem;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #78716c;
+        transition: color 0.3s ease;
+        z-index: 2;
+        background: none;
+        border: none;
+        padding: 0.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .password-toggle ion-icon {
+        font-size: 1.25rem;
+    }
+
+    .password-toggle:hover {
+        color: #d97706;
+    }
+
+    /* Checkbox */
+    .checkbox-group {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        margin-top: 0.25rem;
+        cursor: pointer;
+        accent-color: #d97706;
+    }
+
+    .checkbox-group label {
+        flex: 1;
+        font-size: 0.875rem;
+        color: #57534e;
+        cursor: pointer;
+        line-height: 1.5;
+    }
+
+    .checkbox-group label a {
+        color: #d97706;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .checkbox-group label a:hover {
+        text-decoration: underline;
+    }
+
+    /* Submit Button */
+    .btn-submit {
+        width: 100%;
+        padding: 1rem;
+        background: linear-gradient(135deg, #d97706 0%, #0d9488 100%);
+        color: white;
+        border: none;
+        border-radius: 1rem;
+        font-size: 1.0625rem;
+        font-weight: 600;
+        font-family: 'DM Sans', sans-serif;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-submit::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .btn-submit:hover {
         transform: translateY(-2px);
-        box-shadow: var(--shadow-lg);
+        box-shadow: 0 6px 20px rgba(217, 119, 6, 0.5);
+    }
+
+    .btn-submit:hover::before {
+        left: 100%;
+    }
+
+    .btn-submit:active {
+        transform: translateY(0);
+    }
+
+    /* Loading State */
+    .btn-submit.loading {
+        pointer-events: none;
+        opacity: 0.7;
+    }
+
+    .btn-submit.loading::after {
+        content: '';
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        top: 50%;
+        left: 50%;
+        margin-left: -9px;
+        margin-top: -9px;
+        border: 2px solid #ffffff;
+        border-radius: 50%;
+        border-top-color: transparent;
+        animation: spinnerAnim 0.6s linear infinite;
+    }
+
+    @keyframes spinnerAnim {
+        to { transform: rotate(360deg); }
+    }
+
+    /* Divider */
+    .divider {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        margin: 1.75rem 0;
+    }
+
+    .divider::before,
+    .divider::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1px solid #e7e5e4;
+    }
+
+    .divider span {
+        padding: 0 1rem;
+        color: #78716c;
+        font-size: 0.875rem;
+    }
+
+    /* Login Link */
+    .login-link {
+        text-align: center;
+        margin-top: 1.5rem;
+        font-size: 0.9375rem;
+        color: #57534e;
+    }
+
+    .login-link a {
+        color: #d97706;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+
+    .login-link a:hover {
+        color: #b45309;
+        text-decoration: underline;
+    }
+
+    /* Back Home */
+    .back-home {
+        text-align: center;
+        margin-top: 1.5rem;
+    }
+
+    .back-home a {
+        color: #57534e;
+        text-decoration: none;
+        font-size: 0.875rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        transition: all 0.3s ease;
+    }
+
+    .back-home a ion-icon {
+        font-size: 1rem;
+    }
+
+    .back-home a:hover {
+        color: #d97706;
+        transform: translateX(-3px);
+    }
+
+    /* Responsive Design - Mobile First */
+    
+    /* Tablets - 768px va kichikroq */
+    @media (max-width: 768px) {
+        .register-page-wrapper {
+            padding: 30px 15px !important;
+        }
+
+        .register-container {
+            max-width: 100%;
+        }
+
+        .register-box {
+            padding: 2.5rem 2rem;
+        }
+
+        .register-box h2 {
+            font-size: 1.875rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.25rem;
+        }
+    }
+
+    /* Mobile - 480px va kichikroq */
+    @media (max-width: 480px) {
+        .register-page-wrapper {
+            padding: 20px 10px !important;
+            min-height: 100vh;
+            align-items: flex-start;
+            padding-top: 30px !important;
+        }
+
+        .register-page-wrapper::before,
+        .register-page-wrapper::after {
+            width: 400px;
+            height: 400px;
+        }
+
+        .register-container {
+            max-width: 100%;
+        }
+
+        .register-box {
+            padding: 2rem 1.5rem;
+            border-radius: 1.5rem;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+        }
+
+        .logo-icon ion-icon {
+            font-size: 24px;
+        }
+
+        .register-box h2 {
+            font-size: 1.625rem;
+            margin-bottom: 0.375rem;
+        }
+
+        .subtitle {
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Input Fields - Mobile Optimized */
+        .input-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .input-group input {
+            padding: 0.875rem 0.875rem 0.875rem 2.75rem;
+            font-size: 16px; /* Prevents zoom on iOS */
+        }
+
+        .input-group label {
+            left: 2.75rem;
+            font-size: 0.875rem;
+        }
+
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label {
+            font-size: 0.6875rem;
+        }
+
+        .input-icon {
+            left: 1rem;
+        }
+
+        .input-icon ion-icon {
+            font-size: 1.125rem;
+        }
+
+        .password-toggle {
+            right: 1rem;
+        }
+
+        .password-toggle ion-icon {
+            font-size: 1.125rem;
+        }
+
+        /* Checkbox - Larger tap target */
+        .checkbox-group {
+            gap: 0.625rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 0.125rem;
+        }
+
+        .checkbox-group label {
+            font-size: 0.8125rem;
+            line-height: 1.4;
+        }
+
+        /* Button - Larger for mobile */
+        .btn-submit {
+            padding: 0.875rem 1rem;
+            font-size: 1rem;
+            border-radius: 0.875rem;
+        }
+
+        /* Messages */
+        .error, .success {
+            padding: 0.875rem;
+            font-size: 0.8125rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .error ion-icon,
+        .success ion-icon {
+            font-size: 1.125rem;
+        }
+
+        /* Divider */
+        .divider {
+            margin: 1.5rem 0;
+        }
+
+        .divider span {
+            font-size: 0.8125rem;
+        }
+
+        /* Links */
+        .login-link {
+            font-size: 0.875rem;
+            margin-top: 1.25rem;
+        }
+
+        .back-home {
+            margin-top: 1.25rem;
+        }
+
+        .back-home a {
+            font-size: 0.8125rem;
+        }
+    }
+
+    /* Extra Small Mobile - 375px va kichikroq */
+    @media (max-width: 375px) {
+        .register-page-wrapper {
+            padding: 15px 8px !important;
+            padding-top: 20px !important;
+        }
+
+        .register-box {
+            padding: 1.75rem 1.25rem;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+        }
+
+        .logo-icon ion-icon {
+            font-size: 22px;
+        }
+
+        .register-box h2 {
+            font-size: 1.5rem;
+        }
+
+        .subtitle {
+            font-size: 0.8125rem;
+        }
+
+        .input-group input {
+            padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+            font-size: 16px;
+        }
+
+        .input-group label {
+            left: 2.5rem;
+        }
+
+        .checkbox-group label {
+            font-size: 0.75rem;
+        }
+
+        .btn-submit {
+            padding: 0.75rem 1rem;
+            font-size: 0.9375rem;
+        }
+    }
+
+    /* Landscape Mode - Mobile */
+    @media (max-height: 600px) and (orientation: landscape) {
+        .register-page-wrapper {
+            padding: 15px 10px !important;
+            align-items: flex-start;
+        }
+
+        .register-box {
+            padding: 1.5rem 1.25rem;
+        }
+
+        .logo-container {
+            margin-bottom: 1rem;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            margin-bottom: 0.5rem;
+        }
+
+        .register-box h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .subtitle {
+            margin-bottom: 1rem;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .checkbox-group {
+            margin-bottom: 1rem;
+        }
+
+        .divider {
+            margin: 1rem 0;
+        }
+
+        .login-link,
+        .back-home {
+            margin-top: 1rem;
+        }
+    }
+
+    /* Touch Device Optimizations */
+    @media (hover: none) and (pointer: coarse) {
+        /* Larger tap targets for touch */
+        .password-toggle {
+            padding: 0.5rem;
+            right: 0.875rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+        }
+
+        .btn-submit {
+            min-height: 48px; /* Minimum touch target size */
+        }
+
+        /* Remove hover effects on touch devices */
+        .input-group input:hover {
+            border-color: #e7e5e4;
+        }
+
+        .btn-submit:hover {
+            transform: none;
+        }
+
+        /* Active states for touch feedback */
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        .password-toggle:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .checkbox-group label a:active {
+            opacity: 0.7;
+        }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero">
-    <div class="hero-content">
-        <h1>
-            Raqamli kutubxonaga <span class="hero-accent">xush kelibsiz</span>
-        </h1>
-        <p>
-            Minglab kitoblar, audio kitoblar va maqolalar bir joyda. 
-            O'qing, o'rganing va rivojlaning.
-        </p>
-        <div class="hero-buttons">
-            <a href="#" class="btn btn-primary btn-large">
-                <span style="position: relative; z-index: 1;">Hoziroq boshlang</span>
-            </a>
-            <a href="#" class="btn btn-outline btn-large">
-                <span style="position: relative; z-index: 1;">Ko'proq bilish</span>
-            </a>
-        </div>
-    </div>
-</section>
+<div class="register-page-wrapper">
+    <div class="register-container">
+        <div class="register-box">
+            <div class="logo-container">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <ion-icon name="library-outline"></ion-icon>
+                    </div>
+                </div>
+                <h2>Hisob yaratish</h2>
+                <p class="subtitle">Allaqachon hisobingiz bormi? <a href="{% url 'login' %}">Kirish</a></p>
+            </div>
 
-<!-- Features -->
-<section class="features">
-    <div class="feature-card">
-        <span class="feature-icon">📚</span>
-        <h3>Katta kutubxona</h3>
-        <p>10,000+ kitoblar va maqolalar turli mavzularda. Har kuni yangi kontentlar qo'shiladi.</p>
-    </div>
-    
-    <div class="feature-card">
-        <span class="feature-icon">🎧</span>
-        <h3>Audio kitoblar</h3>
-        <p>Yo'lda, mashq qilganda yoki dam olayotganda audio kitoblarni tinglang.</p>
-    </div>
-    
-    <div class="feature-card">
-        <span class="feature-icon">⭐</span>
-        <h3>Tavsiyalar</h3>
-        <p>Shaxsiy tavsiyalar va o'qish ro'yxatlari orqali yangi kitoblarni kashf eting.</p>
-    </div>
-</section>
+            {% if error %}
+                <div class="error">
+                    <ion-icon name="alert-circle-outline"></ion-icon>
+                    {{ error }}
+                </div>
+            {% endif %}
 
-<!-- Stats -->
-<section class="stats">
-    <div class="stats-grid">
-        <div class="stat-item">
-            <span class="stat-number">10,000+</span>
-            <span class="stat-label">Kitoblar</span>
-        </div>
-        <div class="stat-item">
-            <span class="stat-number">5,000+</span>
-            <span class="stat-label">Foydalanuvchilar</span>
-        </div>
-        <div class="stat-item">
-            <span class="stat-number">50+</span>
-            <span class="stat-label">Kategoriyalar</span>
-        </div>
-        <div class="stat-item">
-            <span class="stat-number">24/7</span>
-            <span class="stat-label">Mavjudlik</span>
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                        <div class="error">
+                            <ion-icon name="alert-circle-outline"></ion-icon>
+                            {{ message }}
+                        </div>
+                    {% elif message.tags == 'success' %}
+                        <div class="success">
+                            <ion-icon name="checkmark-circle-outline"></ion-icon>
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" action="{% url 'register' %}" class="register-form" id="registerForm">
+                {% csrf_token %}
+
+                <div class="input-group">
+                    <input type="text" name="fullname" id="fullname" placeholder="fullname" required>
+                    <label for="fullname">To'liq ism</label>
+                    <span class="input-icon">
+                        <ion-icon name="person-outline"></ion-icon>
+                    </span>
+                </div>
+
+                <div class="input-group">
+                    <input type="email" name="email" id="email" placeholder="email" required>
+                    <label for="email">Email manzil</label>
+                    <span class="input-icon">
+                        <ion-icon name="mail-outline"></ion-icon>
+                    </span>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" name="username" id="username" placeholder="username" required autocomplete="username">
+                    <label for="username">Foydalanuvchi nomi</label>
+                    <span class="input-icon">
+                        <ion-icon name="at-outline"></ion-icon>
+                    </span>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" name="password" id="password" placeholder="password" required autocomplete="new-password">
+                    <label for="password">Parol</label>
+                    <span class="input-icon">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                    </span>
+                    <button type="button" class="password-toggle" onclick="togglePassword('password', 'eyeIcon1')" aria-label="Toggle password visibility">
+                        <ion-icon name="eye-outline" id="eyeIcon1"></ion-icon>
+                    </button>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" name="password2" id="password2" placeholder="password2" required autocomplete="new-password">
+                    <label for="password2">Parolni tasdiqlash</label>
+                    <span class="input-icon">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                    </span>
+                    <button type="button" class="password-toggle" onclick="togglePassword('password2', 'eyeIcon2')" aria-label="Toggle password visibility">
+                        <ion-icon name="eye-outline" id="eyeIcon2"></ion-icon>
+                    </button>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">
+                        Men <a href="#">Foydalanish shartlari</a> va <a href="#">Maxfiylik siyosati</a>ni qabul qilaman
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-submit">Ro'yxatdan o'tish</button>
+            </form>
+
+            <div class="divider">
+                <span>yoki</span>
+            </div>
+
+            <div class="login-link">
+                Allaqachon hisobingiz bormi?
+                <a href="{% url 'login' %}">Kirish</a>
+            </div>
+
+            <div class="back-home">
+                <a href="/">
+                    <ion-icon name="arrow-back-outline"></ion-icon>
+                    Bosh sahifaga qaytish
+                </a>
+            </div>
         </div>
     </div>
-</section>
-
-<!-- Call to Action -->
-<section class="cta">
-    <h2>Bugun o'qishni boshlang</h2>
-    <p>Bepul ro'yxatdan o'ting va minglab kitoblarga kirish huquqiga ega bo'ling</p>
-    <a href="{% url 'register' %}" class="btn-white">
-        Ro'yxatdan o'tish
-    </a>
-</section>
+</div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-    // Counter animation
-    const animateCounter = (element, target) => {
-        let current = 0;
-        const increment = target / 50;
-        const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-                element.textContent = target.toLocaleString() + (element.textContent.includes('+') ? '+' : '');
-                clearInterval(timer);
-            } else {
-                element.textContent = Math.floor(current).toLocaleString();
-            }
-        }, 30);
-    };
-    
-    // Intersection Observer for stats
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const numbers = entry.target.querySelectorAll('.stat-number');
-                numbers.forEach(num => {
-                    const text = num.textContent;
-                    const target = parseInt(text.replace(/[^0-9]/g, ''));
-                    animateCounter(num, target);
-                });
-                observer.unobserve(entry.target);
+    function togglePassword(inputId, iconId) {
+        const passwordInput = document.getElementById(inputId);
+        const eyeIcon = document.getElementById(iconId);
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            eyeIcon.setAttribute('name', 'eye-off-outline');
+        } else {
+            passwordInput.type = 'password';
+            eyeIcon.setAttribute('name', 'eye-outline');
+        }
+    }
+
+    // Form validation
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+        const password = document.getElementById('password').value;
+        const password2 = document.getElementById('password2').value;
+        
+        // Check if passwords match
+        if (password !== password2) {
+            e.preventDefault();
+            alert('Parollar bir xil emas!');
+            return false;
+        }
+        
+        // Check password length
+        if (password.length < 8) {
+            e.preventDefault();
+            alert('Parol kamida 8 belgidan iborat bo\'lishi kerak!');
+            return false;
+        }
+        
+        // Add loading state
+        const button = this.querySelector('.btn-submit');
+        button.classList.add('loading');
+        button.textContent = '';
+    });
+
+    // Email validation
+    document.getElementById('email').addEventListener('blur', function() {
+        const email = this.value;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (email && !emailRegex.test(email)) {
+            this.style.borderColor = '#c33';
+        } else {
+            this.style.borderColor = '#e7e5e4';
+        }
+    });
+
+    // Username validation
+    document.getElementById('username').addEventListener('input', function() {
+        this.value = this.value.toLowerCase().replace(/[^a-z0-9_]/g, '');
+    });
+
+    // Input animation on load
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach((input, index) => {
+            input.style.animation = `slideInAnim 0.5s ease-out ${index * 0.1}s both`;
+        });
+    });
+
+    // Mobile: Prevent zoom on input focus (iOS Safari)
+    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.style.fontSize = '16px';
+            });
+        });
+    }
+
+    // Mobile: Scroll to input when focused (especially for landscape mode)
+    const allInputs = document.querySelectorAll('input, textarea, select');
+    allInputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            setTimeout(() => {
+                this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        });
+    });
+
+    // Prevent double-tap zoom on buttons
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(event) {
+        const now = Date.now();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+
+    // Add haptic feedback on button press (if supported)
+    const button = document.querySelector('.btn-submit');
+    if (button && 'vibrate' in navigator) {
+        button.addEventListener('click', function() {
+            navigator.vibrate(10); // 10ms vibration
+        });
+    }
+
+    // Smooth scroll behavior
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
-    }, { threshold: 0.5 });
-    
-    const statsSection = document.querySelector('.stats');
-    if (statsSection) {
-        observer.observe(statsSection);
-    }
+    });
+
+    // Auto-hide address bar on mobile (scroll trick)
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            window.scrollTo(0, 1);
+        }, 0);
+    });
 </script>
 {% endblock %}

@@ -2,7 +2,12 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <title>Online Book</title>
+    <title>{% block title %}Online Book{% endblock %}</title>
+
+    {% block extra_css %}{% endblock %}
+
+    {% csrf_token %}
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -29,6 +34,7 @@
         }
     </style>
 </head>
+
 <body>
 
 <div class="navbar">
@@ -47,8 +53,9 @@
     </div>
 </div>
 
-{% block content %}
-{% endblock %}
+{% block content %}{% endblock %}
+
+{% block extra_js %}{% endblock %}
 
 </body>
 </html>

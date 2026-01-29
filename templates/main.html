@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Bosh sahifa{% endblock %}
+
+{% block extra_css %}
+<style>
+.dashboard {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #fff7ed, #ecfeff);
+    padding: 50px;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.card {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.header h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+}
+
+.logout {
+    padding: 12px 24px;
+    background: linear-gradient(135deg,#d97706,#0d9488);
+    color: white;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+    gap: 20px;
+}
+
+.stat {
+    background: #fffbf5;
+    padding: 25px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.stat h3 {
+    font-size: 36px;
+    color: #d97706;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="card">
+        <div class="header">
+            <h2>👋 Salom, {{ request.user.first_name }}!</h2>
+            <a href="{% url 'logout' %}" class="logout">Chiqish</a>
+        </div>
+
+        <p>Xush kelibsiz <b>{{ request.user.username }}</b>! Siz Online Book tizimidasiz.</p>
+
+        <div class="stats">
+            <div class="stat">
+                <h3>📚</h3>
+                <p>Kitoblar</p>
+            </div>
+            <div class="stat">
+                <h3>⭐</h3>
+                <p>Sevimlilar</p>
+            </div>
+            <div class="stat">
+                <h3>👤</h3>
+                <p>Profil</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
